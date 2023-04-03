@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                     CountDownTimer countDownTimer = new CountDownTimer(seconds * 1000, 1000) {
                         @Override
                         public void onTick(long millis) {
-                            textView.setText("seconds: " + (int) (millis / 1000));
+                            textView.setText("Осталось времени: " + (int) (millis / 1000));
                         }
 
                         @Override
