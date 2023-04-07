@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import static kotlinx.coroutines.CoroutineScopeKt.cancel;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -7,7 +9,10 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,21 +37,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String text = editText.getText().toString();
-                if (!text.equalsIgnoreCase("")) {
                     int seconds = Integer.valueOf(editText.getText().toString());
-                    CountDownTimer countDownTimer = new CountDownTimer(seconds * 1000, 1000) {
+                    CountDownTimer countDownTimer = new CountDownTimer(seconds * 1000, 1) {
                         @Override
                         public void onTick(long millis) {
-                            textView.setText("Осталось времени: " + (int) (millis / 1000));
+                            //textView.setText("Осталось времени: " + (int) (millis / 1000));
+                            long m = TimeUnit.MILLISECONDS.toMinutes(millis);
+                            long s = TimeUnit.MILLISECONDS.toSeconds(millis- m*60*1000);
+                            long ms = millis - m*60*1000 - s*1000;
+                            textView.setText(""+String.format("%02d:%02d:%02d",m, s, ms));
                         }
 
                         @Override
                         public void onFinish() {
                             textView.setText("Тут должен быть звук, но да ладно)");
                         }
+                        Object tected;
+
                     }.start();
                 }
-            }
         });
     }
 }
